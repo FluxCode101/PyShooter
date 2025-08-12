@@ -23,9 +23,10 @@ Routemap and Milestones:
 5. Adding EXP and Levelups
 6. Adding Skills
 7. Adding Powerups
-8. Polished Menues
-9. Saving Progress (continue or new game)
-10. Adding Video & Sound Configuration
+8. Modification and parameter scaling
+9. Polished Menues
+10. Saving Progress (continue or new game)
+11. Adding Video & Sound Configuration
 ...
 
 
@@ -35,5 +36,7 @@ pygamece lib
 
 How to play:
 - Use WASD to move the ship in each direction
-- use mouse to aim at the desired direction
-- 
+- Use mouse to aim at the desired direction
+- Quickly Quit with ESC Key
+
+
