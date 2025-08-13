@@ -6,7 +6,7 @@ Mainly for educational purpose:
 2. Creating and enherting classes in python
 3. Performance optimisations
 
-Thanks to https:\\itch.io community for supporting indie developer with following free content:
+Thanks to https:\\\itch.io community for supporting indie developer with following free content:
 - sprites and graphics
 - sfx and music
 - scenarys
