@@ -128,12 +128,12 @@ def main():
         def shoot(self, x, y, angle):
             # validate time between shoots
             self.calc_fire_rate()
-            # validate if LMB pressed, create proj and add to weap Proj list
+            # validate if LMB pressed, create projectile and add to weap projectile list
             if self.weap_shoot:
                 self.weap_shoot = False
                 self.weap_sfx.play()
             
-        # TODO fix turrent rotation on mouse x,y and shipcontrol key press only
+        # TODO fix turrent rotation on mouse x,y and shipcontrol on key press only
         def update(self, screen, player, x, y, angle):
             rotation = pygame.transform.rotate(self.weap_surf, angle)
             screen.blit(rotation, (x,y))
@@ -198,18 +198,15 @@ def main():
 
     
 
-        
-
-
             
-    # Clocktick tracking  in milliseconds
+    # Clocktick tracking in milliseconds
     clock = pygame.time.Clock()
     running = True
 
     # create objects
     main_sprites = pygame.sprite.Group()
-    player = Player(main_sprites)
-    player.turrets.append(weapon)
+    player1 = Player(main_sprites)
+    player1.turrets.append(weapon())
   
     
 
