@@ -13,7 +13,7 @@ def main():
 
     # # Main settings # #
     pygame.init()
-    SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800
+    SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
     pygame.display.set_caption("pyShooter")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
@@ -61,13 +61,10 @@ def main():
             keys = pygame.key.get_pressed() 
             self.move_x = int(keys[pygame.K_d] - int(keys[pygame.K_a]))
             self.move_y = int(keys[pygame.K_s] - int(keys[pygame.K_w]))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    player.shoot = True
-                    print(player.shoot)
-                if event.type == pygame.MOUSEBUTTONUP:
-                    player.shoot = False
-                    ic(player.shoot)
+            if keys[pygame.K_SPACE]:
+                player.shoot = True
+            else:
+                player.shoot = False
 
         def move(self):
             self.controlls()
@@ -96,16 +93,15 @@ def main():
             self.move()
             self.rotate_player()
             screen.blit(self.rotate_image, self.rotate_rect.topleft)
+            pygame.draw.rect(screen, (255,0,0), self.rotate_rect, 2)
             # update turret list AND shoot if requierments met
-            ic(player)
             for turret in self.turrets:
-                # player shoot true if lmb pressed
+                # player method call if Key pressed, shoot is true
                 if self.shoot:
                     turret.shoot(self.rect.x, self.rect.y, self.angle)
-                # update turrents draw on (-,-)
-                turret.update(self, screen, player, self.rotate_rect.x, self.rotate_rect.y, self.angle)
+                # update turrents draw ship TODO sync with ship rotation (-,-)
+                turret.update(screen, player, self.rotate_rect.x, self.rotate_rect.y, self.angle)
                 
-
 
     class weapon:
         def __init__(self):
@@ -128,17 +124,18 @@ def main():
         def shoot(self, x, y, angle):
             # validate time between shoots
             self.calc_fire_rate()
-            # validate if LMB pressed, create projectile and add to weap projectile list
+            # validate if SPACE pressed, create projectile and add to weap projectile list
             if self.weap_shoot:
                 self.weap_shoot = False
-                self.weap_sfx.play()
+                self.weap_sfx.play()  
+                self.weap_proj_list.append(Projectile(x, y, angle))
             
         # TODO fix turrent rotation on mouse x,y and shipcontrol on key press only
         def update(self, screen, player, x, y, angle):
             rotation = pygame.transform.rotate(self.weap_surf, angle)
             screen.blit(rotation, (x,y))
             self.weap_rect = rotation.get_frect(center=(player.rect.centerx, player.rect.centery))
-            ic(self.weap_rect)
+            pygame.draw.rect(screen, (0,255,0), self.weap_rect, 2)
             for projectile in self.weap_proj_list[:]:
                 projectile.update(screen)
                 if projectile.proj_duration <= 0:
@@ -153,7 +150,7 @@ def main():
             self.x = x
             self.y = y
             self.proj_speed = 2
-            self.proj_duration = 240
+            self.proj_duration = 60
             self.proj_size = 1
             self.angle = angle
             self.calc_xy_velocity()
@@ -166,10 +163,10 @@ def main():
         def update(self, screen):
             self.proj_rect.centerx += self.proj_x_velo
             self.proj_rect.centery += self.proj_y_velo
-            pygame.draw.line(screen, (0,255,0), (self.proj_rect.centerx, self.proj_rect.centery), (self.x, self.y), 2)
             self.proj_duration -= 1
             if self.proj_duration > 0:
                 screen.blit(self.proj_surf, self.proj_rect.topleft)
+    
 
     # TODO Automate encounter and events logic
     class Spawner:
@@ -205,8 +202,8 @@ def main():
 
     # create objects
     main_sprites = pygame.sprite.Group()
-    player1 = Player(main_sprites)
-    player1.turrets.append(weapon())
+    player = Player(main_sprites)
+    player.turrets.append(weapon())
   
     
 
@@ -217,10 +214,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     player.shoot = True
-            # if event.type == pygame.MOUSEBUTTONUP:
-            #     player.shoot = False
+        if pygame.K_ESCAPE == True:
+            running = False
 
         # Draw background
         screen.blit(BG_image)
