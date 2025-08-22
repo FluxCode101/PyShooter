@@ -1,6 +1,6 @@
 # PyShooter
 
-Simple arcade rogue lite asteroid shooting game.
+Simple rogue lite space shooter.
 
   
 
