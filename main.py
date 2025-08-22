@@ -1,6 +1,3 @@
-
-
-
 import pygame.gfxdraw
 
 
@@ -17,18 +14,18 @@ def main():
     # # Main settings # #
     pygame.init()
     SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800
-    pygame.display.set_caption("Circle Shooter")
+    pygame.display.set_caption("pyShooter")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
     # # Musik and SoundFX (inf loop) # #
     pygame.mixer.init()
-    pygame.mixer.music.load('sfx/DragAndDreadTheme.wav')
+    pygame.mixer.music.load('music/misty.wav')
     pygame.mixer_music.set_volume(0.0)
     pygame.mixer.music.play(-1)
 
     # Draw Background
-    BG_image = pygame.image.load('textures/bg_space.png')
+    BG_image = pygame.image.load('textures/Stars-A.png')
 
     # IC Debugger
     ic.enable
@@ -45,7 +42,7 @@ def main():
     class Player(pygame.sprite.Sprite):
         def __init__(self, groups):
             super().__init__(groups)
-            self.image = pygame.image.load('textures/body_01.png').convert_alpha()
+            self.image = pygame.image.load('textures/ship_4.png').convert_alpha()
             self.rect = self.image.get_frect()
             # Spawn position on obj. construction
             self.rect.centerx = (SCREEN_WIDTH / 2)
@@ -114,7 +111,7 @@ def main():
         def __init__(self):
             self.weap_surf = pygame.image.load('textures/turret_01_mk1.png')
             self.weap_rect = self.weap_surf.get_frect()
-            self.weap_sfx = pygame.mixer.Sound('sfx/shoot.wav')
+            self.weap_sfx = pygame.mixer.Sound('sfx/Shot_04.wav')
             self.weap_rate_of_fire = 500
             self.pre = 0
             self.post = pygame.time.get_ticks()
